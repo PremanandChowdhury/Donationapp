@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initalState = {
-  firstName: 'Premanand',
-  lastName: 'Chowdhury',
+  firstName: 'Purusottam',
+  lastName: 'Ram',
   id: 1,
 };
 

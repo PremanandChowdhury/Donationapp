@@ -1,16 +1,21 @@
 import React from 'react';
 import {SafeAreaView, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
 import globalStyle from '../../assets/style/globalStyle';
 import style from './style';
 
 import Search from '../../components/Search/Search';
 import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem,';
+import Header from '../../components/Header/Header';
 
 const Home = () => {
+  const user = useSelector(state => state.user);
+
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
-      <Search onSearch={value => console.log(value)} />
+      <Header title={`${user.firstName} ${user.lastName}`} />
+      {/* <Search onSearch={value => console.log(value)} />
       <View style={style.itemContainer}>
         <SingleDonationItem
           uri={
@@ -28,7 +33,7 @@ const Home = () => {
           donationTitle={'Tree Cactus'}
           price={44}
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
