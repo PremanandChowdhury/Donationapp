@@ -1,6 +1,6 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {Pressable, SafeAreaView, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
 import globalStyle from '../../assets/style/globalStyle';
 import style from './style';
@@ -8,13 +8,27 @@ import style from './style';
 import Search from '../../components/Search/Search';
 import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem,';
 import Header from '../../components/Header/Header';
+import {updateUserFirstName} from '../../redux/reducers/User';
 
 const Home = () => {
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <Header title={`${user.firstName} ${user.lastName}`} />
+
+      <Pressable
+        onPress={() =>
+          dispatch(
+            updateUserFirstName({
+              firstName: 'Prem',
+            }),
+          )
+        }>
+        <Text>Press Me to Change User firstname 👌</Text>
+      </Pressable>
+
       {/* <Search onSearch={value => console.log(value)} />
       <View style={style.itemContainer}>
         <SingleDonationItem
