@@ -1,14 +1,12 @@
 import React from 'react';
-import {Pressable, SafeAreaView, Text, View} from 'react-native';
+import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import globalStyle from '../../assets/style/globalStyle';
 import style from './style';
 
-import Search from '../../components/Search/Search';
-import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem,';
 import Header from '../../components/Header/Header';
-import {updateUserFirstName} from '../../redux/reducers/User';
+import Search from '../../components/Search/Search';
 
 const Home = () => {
   const user = useSelector(state => state.user);
@@ -16,38 +14,31 @@ const Home = () => {
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
-      <Header title={`${user.firstName} ${user.lastName}`} />
-
+      <View style={style.header}>
+        <View>
+          <Text style={style.headerIntroText}>Hello,</Text>
+          <View style={style.username}>
+            <Header title={user.firstName + ' ' + user.lastName[0] + '. 👋'} />
+          </View>
+        </View>
+        <Image
+          source={{uri: user.uri}}
+          style={style.profileImage}
+          resizeMode={'contain'}
+        />
+      </View>
+      <View style={style.search}>
+        <Search />
+      </View>
       <Pressable
-        onPress={() =>
-          dispatch(
-            updateUserFirstName({
-              firstName: 'Prem',
-            }),
-          )
-        }>
-        <Text>Press Me to Change User firstname 👌</Text>
+        style={style.bannerContainer}
+        onPress={() => console.log('Linking!!! ')}>
+        <Image
+          style={style.bannerImage}
+          source={require('../../assets/images/highlighted_image.png')}
+          resizeMode="contain"
+        />
       </Pressable>
-
-      {/* <Search onSearch={value => console.log(value)} />
-      <View style={style.itemContainer}>
-        <SingleDonationItem
-          uri={
-            'https://img.pixers.pics/pho_wat(s3:700/FO/44/24/64/31/700_FO44246431_ab024cd8251bff09ce9ae6ecd05ec4a8.jpg,525,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,305,650,jpg)/stickers-cactus-cartoon-illustration.jpg.jpgR'
-          }
-          badgeTitle={'Environment'}
-          donationTitle={'Tree Cactus'}
-          price={44}
-        />
-        <SingleDonationItem
-          uri={
-            'https://img.pixers.pics/pho_wat(s3:700/FO/44/24/64/31/700_FO44246431_ab024cd8251bff09ce9ae6ecd05ec4a8.jpg,525,700,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,305,650,jpg)/stickers-cactus-cartoon-illustration.jpg.jpgR'
-          }
-          badgeTitle={'Environment'}
-          donationTitle={'Tree Cactus'}
-          price={44}
-        />
-      </View> */}
     </SafeAreaView>
   );
 };
