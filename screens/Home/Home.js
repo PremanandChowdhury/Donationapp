@@ -1,5 +1,12 @@
 import React from 'react';
-import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import globalStyle from '../../assets/style/globalStyle';
@@ -7,10 +14,13 @@ import style from './style';
 
 import Header from '../../components/Header/Header';
 import Search from '../../components/Search/Search';
+import Tab from '../../components/Tab/Tab';
+import {updateSelectedCategoryId} from '../../redux/reducers/Categories';
 
 const Home = () => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const categories = useSelector(state => state.categories);
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
@@ -39,6 +49,26 @@ const Home = () => {
           resizeMode="contain"
         />
       </Pressable>
+      <View style={style.categoryHeader}>
+        <Header title={'Select Category'} type={2} />
+      </View>
+      <View style={style.categories}>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={categories.categories}
+          renderItem={({item}) => (
+            <View style={style.categoryItem} key={item.categoryId}>
+              <Tab
+                tabId={item.categoryId}
+                onPress={value => dispatch(updateSelectedCategoryId(value))}
+                title={item.name}
+                isInactive={item.categoryId !== categories.selectedCategoryId}
+              />
+            </View>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };

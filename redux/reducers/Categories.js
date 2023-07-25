@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const initalState = {
+const initialState = {
   categories: [
     {
       categoryId: 1,
@@ -60,10 +60,10 @@ const initalState = {
 
 const Categories = createSlice({
   name: 'categories',
-  initialState: initalState,
+  initialState: initialState,
   reducers: {
     resetCategories: () => {
-      return initalState;
+      return initialState;
     },
     updateSelectedCategoryId: (state, action) => {
       state.selectedCategoryId = action.payload;
