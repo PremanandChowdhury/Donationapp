@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -22,13 +22,44 @@ const Home = () => {
   const dispatch = useDispatch();
   const categories = useSelector(state => state.categories);
 
+  const [categoryPage, setCategoryPage] = useState(1);
+  const [categoryList, setCategoryList] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const categoryPageSize = 4;
+
+  useEffect(() => {
+    setIsLoadingCategories(true);
+    setCategoryList(
+      pagination(categories.categories, categoryPage, categoryPageSize),
+    );
+    setCategoryPage(prev => prev + 1);
+    setIsLoadingCategories(false);
+  }, []);
+
+  console.log(categoryList.length);
+
+  // Pagination Function
+  const pagination = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    if (startIndex >= items.length) {
+      return [];
+    }
+
+    return items.slice(startIndex, endIndex);
+  };
+
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <View style={style.header}>
         <View>
           <Text style={style.headerIntroText}>Hello,</Text>
           <View style={style.username}>
-            <Header title={user.firstName + ' ' + user.lastName[0] + '. 👋'} />
+            <Header
+              title={user.firstName + ' ' + user.lastName[0] + '. 👋'}
+              color={'#000'}
+            />
           </View>
         </View>
         <Image
@@ -50,13 +81,33 @@ const Home = () => {
         />
       </Pressable>
       <View style={style.categoryHeader}>
-        <Header title={'Select Category'} type={2} />
+        <Header title={'Select Category'} type={2} color={'#000'} />
       </View>
       <View style={style.categories}>
         <FlatList
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (isLoadingCategories) {
+              return;
+            }
+            console.log(
+              `USER REACHED END OF THE LIST, FETCHING MORE DATA FOR PAGE NO ${categoryPage}`,
+            );
+            setIsLoadingCategories(true);
+            let newData = pagination(
+              categories.categories,
+              categoryPage,
+              categoryPageSize,
+            );
+            if (newData.length > 0) {
+              setCategoryList(prevState => [...prevState, ...newData]);
+              setCategoryPage(prevState => prevState + 1);
+            }
+            setIsLoadingCategories(false);
+          }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          data={categories.categories}
+          data={categoryList}
           renderItem={({item}) => (
             <View style={style.categoryItem} key={item.categoryId}>
               <Tab

@@ -25,20 +25,21 @@ const style = StyleSheet.create({
     height: verticalScale(50),
   },
   search: {
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(20),
     marginHorizontal: horizontalScale(24),
   },
   bannerContainer: {
     marginHorizontal: horizontalScale(24),
+    marginTop: verticalScale(15),
+    marginBottom: verticalScale(15),
   },
   bannerImage: {
     width: '100%',
     height: verticalScale(160),
   },
   categoryHeader: {
-    marginHorizontal: horizontalScale(30),
+    marginHorizontal: horizontalScale(24),
     marginBottom: verticalScale(16),
-    marginTop: verticalScale(6),
   },
   categories: {
     marginLeft: horizontalScale(24),
