@@ -4,6 +4,7 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  ScrollView,
   Text,
   View,
 } from 'react-native';
@@ -16,6 +17,7 @@ import Header from '../../components/Header/Header';
 import Search from '../../components/Search/Search';
 import Tab from '../../components/Tab/Tab';
 import {updateSelectedCategoryId} from '../../redux/reducers/Categories';
+import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem,';
 
 const Home = () => {
   const user = useSelector(state => state.user);
@@ -28,6 +30,16 @@ const Home = () => {
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const categoryPageSize = 4;
 
+  const [donationItems, setDonationItems] = useState([]);
+
+  useEffect(() => {
+    const items = donations.items.filter(value =>
+      value.categoryIds.includes(categories.selectedCategoryId),
+    );
+
+    setDonationItems(items);
+  }, [categories.selectedCategoryId]);
+
   useEffect(() => {
     setIsLoadingCategories(true);
     setCategoryList(
@@ -36,8 +48,6 @@ const Home = () => {
     setCategoryPage(prev => prev + 1);
     setIsLoadingCategories(false);
   }, []);
-
-  console.log('Donations ', donations);
 
   // Pagination Function
   const pagination = (items, pageNumber, pageSize) => {
@@ -53,74 +63,99 @@ const Home = () => {
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
-      <View style={style.header}>
-        <View>
-          <Text style={style.headerIntroText}>Hello,</Text>
-          <View style={style.username}>
-            <Header
-              title={user.firstName + ' ' + user.lastName[0] + '. 👋'}
-              color={'#000'}
-            />
-          </View>
-        </View>
-        <Image
-          source={{uri: user.uri}}
-          style={style.profileImage}
-          resizeMode={'contain'}
-        />
-      </View>
-      <View style={style.search}>
-        <Search />
-      </View>
-      <Pressable
-        style={style.bannerContainer}
-        onPress={() => console.log('Linking!!! ')}>
-        <Image
-          style={style.bannerImage}
-          source={require('../../assets/images/highlighted_image.png')}
-          resizeMode="contain"
-        />
-      </Pressable>
-      <View style={style.categoryHeader}>
-        <Header title={'Select Category'} type={2} color={'#000'} />
-      </View>
-      <View style={style.categories}>
-        <FlatList
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (isLoadingCategories) {
-              return;
-            }
-            console.log(
-              `USER REACHED END OF THE LIST, FETCHING MORE DATA FOR PAGE NO ${categoryPage}`,
-            );
-            setIsLoadingCategories(true);
-            let newData = pagination(
-              categories.categories,
-              categoryPage,
-              categoryPageSize,
-            );
-            if (newData.length > 0) {
-              setCategoryList(prevState => [...prevState, ...newData]);
-              setCategoryPage(prevState => prevState + 1);
-            }
-            setIsLoadingCategories(false);
-          }}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          data={categoryList}
-          renderItem={({item}) => (
-            <View style={style.categoryItem} key={item.categoryId}>
-              <Tab
-                tabId={item.categoryId}
-                onPress={value => dispatch(updateSelectedCategoryId(value))}
-                title={item.name}
-                isInactive={item.categoryId !== categories.selectedCategoryId}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={style.header}>
+          <View>
+            <Text style={style.headerIntroText}>Hello,</Text>
+            <View style={style.username}>
+              <Header
+                title={user.firstName + ' ' + user.lastName[0] + '. 👋'}
+                color={'#000'}
               />
             </View>
-          )}
-        />
-      </View>
+          </View>
+          <Image
+            source={{uri: user.uri}}
+            style={style.profileImage}
+            resizeMode={'contain'}
+          />
+        </View>
+        <View style={style.search}>
+          <Search />
+        </View>
+        <Pressable
+          style={style.bannerContainer}
+          onPress={() => console.log('Banner ')}>
+          <Image
+            style={style.bannerImage}
+            source={require('../../assets/images/highlighted_image.png')}
+            resizeMode="contain"
+          />
+        </Pressable>
+        <View style={style.categoryHeader}>
+          <Header title={'Select Category'} type={2} color={'#000'} />
+        </View>
+        <View style={style.categories}>
+          <FlatList
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (isLoadingCategories) {
+                return;
+              }
+              console.log(
+                `USER REACHED END OF THE LIST, FETCHING MORE DATA FOR PAGE NO ${categoryPage}`,
+              );
+              setIsLoadingCategories(true);
+              let newData = pagination(
+                categories.categories,
+                categoryPage,
+                categoryPageSize,
+              );
+              if (newData.length > 0) {
+                setCategoryList(prevState => [...prevState, ...newData]);
+                setCategoryPage(prevState => prevState + 1);
+              }
+              setIsLoadingCategories(false);
+            }}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            data={categoryList}
+            renderItem={({item}) => (
+              <View style={style.categoryItem} key={item.categoryId}>
+                <Tab
+                  tabId={item.categoryId}
+                  onPress={value => dispatch(updateSelectedCategoryId(value))}
+                  title={item.name}
+                  isInactive={item.categoryId !== categories.selectedCategoryId}
+                />
+              </View>
+            )}
+          />
+        </View>
+        {donationItems.length > 0 && (
+          <View style={style.donationItemsContainer}>
+            {donationItems.map(value => (
+              <View key={value.donationItemId} style={style.singleDonationItem}>
+                <SingleDonationItem
+                  onPress={selectedDonationId => {
+                    console.log(selectedDonationId);
+                  }}
+                  donationItemId={value.donationItemId}
+                  uri={value.image}
+                  donationTitle={value.name}
+                  badgeTitle={
+                    categories.categories.filter(
+                      ele => ele.categoryId === categories.selectedCategoryId,
+                    )[0].name
+                  }
+                  key={value.donationItemId}
+                  price={parseFloat(value.price)}
+                />
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
