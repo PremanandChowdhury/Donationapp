@@ -32,10 +32,10 @@ const Header = props => {
   );
 };
 
-Header.default = {
+Header.defaultProps = {
   title: '',
   type: 1,
-  color: '#000000',
+  color: '#000',
 };
 
 Header.propTypes = {
