@@ -3,7 +3,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import {logger} from 'redux-logger';
-import {persistReducer, persistStore} from 'redux-persist';
+import {persistReducer,  persistStore} from 'redux-persist';
 
 import User from './reducers/User';
 import Categories from './reducers/Categories';

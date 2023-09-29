@@ -1,7 +1,7 @@
 // Package Import
 import {View, Image, Pressable} from 'react-native';
 import React from 'react';
-import {PropTypes} from 'prop-types';
+import PropTypes from "prop-types";
 
 // Style Import
 import style from './style';

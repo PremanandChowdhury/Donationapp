@@ -72,7 +72,7 @@ const Home = ({navigation, route}) => {
         <View style={style.header}>
           <View>
             <Text style={style.headerIntroText}>Hello,</Text>
-            <View style={style.username}>
+            <View>
               <Header
                 title={user.firstName + ' ' + user.lastName[0] + '. 👋'}
                 color={'#000'}

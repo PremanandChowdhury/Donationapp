@@ -15,7 +15,7 @@ const Button = props => {
   );
 };
 
-Button.propTypes = {
+Button.defaultprops = {
   isDisabled: false,
 };
 

@@ -25,7 +25,7 @@ const Header = props => {
     <View>
       <Text
         style={[styleToApply(), props.color && {color: props.color}]}
-        numberOfLines={props.numberOfLines ? props.numberOfLines : null}>
+        numberOfLines={props.numberOfLines ?? null}>
         {props.title}
       </Text>
     </View>
