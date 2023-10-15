@@ -24,7 +24,7 @@ import SingleDonationItem from '../../components/SingleDonationItem/SingleDonati
 import {updateSelectedDonationId} from '../../redux/reducers/Donations';
 import {Routes} from '../../navigation/Routes';
 
-const Home = ({navigation, route}) => {
+const Home = ({navigation}) => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const categories = useSelector(state => state.categories);
@@ -74,7 +74,7 @@ const Home = ({navigation, route}) => {
             <Text style={style.headerIntroText}>Hello,</Text>
             <View>
               <Header
-                title={user.firstName + ' ' + user.lastName[0] + '. 👋'}
+                title={user.displayName + ' 👋'}
                 color={'#000'}
               />
             </View>

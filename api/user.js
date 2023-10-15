@@ -32,7 +32,7 @@ export const createUser =  async (fullName, email, password)  => {
 export const loginUser = async (email, password) => {
     try  {
         const response = await auth().signInWithEmailAndPassword(email, password);
-        const token = await response.user.getIdToken();
+        const token = await response?.user?.getIdToken();
 
         return  {
             error: false,

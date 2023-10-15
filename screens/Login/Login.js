@@ -1,6 +1,7 @@
 // Package Import
 import {Pressable, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
 
 // Styles Import
 import globalStyle from '../../assets/style/globalStyle';
@@ -12,11 +13,13 @@ import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import {Routes} from '../../navigation/Routes';
 import { loginUser } from '../../api/user';
+import { logIn } from '../../redux/reducers/User';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
@@ -54,6 +57,7 @@ const Login = ({navigation}) => {
                 setError(user.message)
               } else {
                 setError('');
+                dispatch(logIn(user?.data))
                 navigation.navigate(Routes.Home);
               }
             }
