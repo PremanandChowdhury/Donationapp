@@ -24,7 +24,7 @@ import SingleDonationItem from '../../components/SingleDonationItem/SingleDonati
 import {updateSelectedDonationId} from '../../redux/reducers/Donations';
 import {Routes} from '../../navigation/Routes';
 import {resetToInitalState} from '../../redux/reducers/User';
-import { logOut } from '../../api/user';
+import {logOut} from '../../api/user';
 
 const Home = ({navigation}) => {
   const user = useSelector(state => state.user);

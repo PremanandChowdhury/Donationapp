@@ -1,7 +1,7 @@
 // Package Import
 import {Pressable, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 // Styles Import
 import globalStyle from '../../assets/style/globalStyle';
@@ -12,8 +12,8 @@ import Input from '../../components/Input/Input';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import {Routes} from '../../navigation/Routes';
-import { loginUser } from '../../api/user';
-import { logIn } from '../../redux/reducers/User';
+import {loginUser} from '../../api/user';
+import {logIn} from '../../redux/reducers/User';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -46,22 +46,23 @@ const Login = ({navigation}) => {
             onChangeText={value => setPassword(value)}
           />
         </View>
-        {error.length > 0 && <Text style={[style.error, style.toastStyle]}>{error}</Text>}
+        {error.length > 0 && (
+          <Text style={[style.error, style.toastStyle]}>{error}</Text>
+        )}
         <View style={globalStyle.mb_24}>
           <Button
             title={'Login'}
             isDisabled={email.length < 5 || password.length < 8}
             onPress={async () => {
               let user = await loginUser(email, password);
-              if(user.error) {
-                setError(user.message)
+              if (user.error) {
+                setError(user.message);
               } else {
                 setError('');
-                dispatch(logIn(user?.data))
+                dispatch(logIn(user?.data));
                 navigation.navigate(Routes.Home);
               }
-            }
-          }
+            }}
           />
         </View>
         <Pressable
