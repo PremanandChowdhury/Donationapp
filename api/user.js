@@ -61,3 +61,12 @@ export const loginUser = async (email, password) => {
         };
     }
 }
+
+// User Logout
+export const logOut = async () => {
+    try {
+        await auth().signOut();
+    } catch (error) {
+        
+    }
+}
