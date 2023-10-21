@@ -11,10 +11,10 @@ export const User = createSlice({
   reducers: {
     logIn: (state, action) => {
       return {
-        ...state, 
+        ...state,
         ...{isLoggedIn: true},
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
     resetToInitalState: () => {
       return initalState;
