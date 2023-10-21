@@ -1,6 +1,8 @@
 {
-  "files.autoSave": "onFocusChange",
+  "files.autoSave": "onWindowChange",
   "editor.fontSize": 13.5,
   "editor.formatOnSave": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "files.eol": "\n"
 }
