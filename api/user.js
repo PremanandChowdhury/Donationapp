@@ -1,4 +1,6 @@
 import auth from '@react-native-firebase/auth';
+import store from '../redux/store';
+import {updateToken} from '../redux/reducers/User';
 
 // Create a new User
 export const createUser = async (fullName, email, password) => {
@@ -69,4 +71,18 @@ export const logOut = async () => {
   try {
     await auth().signOut();
   } catch (error) {}
+};
+
+// Refresh Token
+export const checkToken = async () => {
+  try {
+    let response = await auth().currentUser.getIdToken({forceRefresh: true});
+    console.log('CHECK TOKEN RES', response);
+    console.log('UPDATING TOkEN');
+    store.dispatch(updateToken(response));
+
+    return response;
+  } catch (error) {
+    return error;
+  }
 };
