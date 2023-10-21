@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.fontSize": 13.5,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2
+}
